@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('tenant_id');
+            $table->unsignedInteger('tenant_id')->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -66,7 +66,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->foreign('tenant_id')->nullable()->references('id')->on('tenants')->onDelete('CASCADE');
+            $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('CASCADE');
         });
     }
 

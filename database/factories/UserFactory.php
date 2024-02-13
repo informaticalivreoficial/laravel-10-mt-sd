@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\Tenant;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -23,10 +24,21 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $tenant = Tenant::first();
+
         return [
-            'name' => fake()->name(),
+            'tenant_id' => $tenant->id, 
+            'name' => fake()->name,
             'email' => fake()->unique()->safeEmail(),
+            'cpf' => fake()->cpf,
+            'rg' => fake()->rg,
+            'birthday' => now()->subYears(25)->format('Y-m-d'),
+            'cell_phone' => '(12)' . fake()->cellphone,
+            'whatsapp' => '(12)' . fake()->cellphone,
+            'additional_email' => fake()->safeEmail(),
             'email_verified_at' => now(),
+            'client' => true,
+            'status' => 1,            
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
